@@ -1,0 +1,122 @@
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-system
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: conference-application
+spec:
+  owner: guests
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: frontend
+  annotations:
+    dapr.io/application-id: frontend
+spec:
+  type: website
+  lifecycle: experimental
+  owner: guests
+  system: conference-application
+  providesApis: [frontend-api]
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: notifications-service
+  annotations:
+    dapr.io/application-id: notifications-service
+spec:
+  type: website
+  lifecycle: experimental
+  owner: guests
+  system: conference-application
+  providesApis: [notifications-service-api]
+
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: agenda-service
+  annotations:
+    dapr.io/application-id: agenda-service
+spec:
+  type: website
+  lifecycle: experimental
+  owner: guests
+  system: conference-application
+  providesApis: [agenda-service-api]
+
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: c4p-service
+  annotations:
+    dapr.io/application-id: c4p-service
+spec:
+  type: website
+  lifecycle: experimental
+  owner: guests
+  system: conference-application
+  providesApis: [c4p-service-api]
+
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: frontend-api
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: guests
+  system: conference-application
+  definition:
+    $text: https://github.com/salaboy/platforms-on-k8s/blob/v2.0.0/conference-application/frontend-go/kodata/docs/openapi.yaml
+
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: notifications-service-api
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: guests
+  system: conference-application
+  definition:
+    $text: https://github.com/salaboy/platforms-on-k8s/blob/v2.0.0/conference-application/notifications-service/kodata/docs/openapi.yaml
+
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: agenda-service-api
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: guests
+  system: conference-application
+  definition:
+    $text: https://github.com/salaboy/platforms-on-k8s/blob/v2.0.0/conference-application/agenda-service/kodata/docs/openapi.yaml
+
+---
+# https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
+apiVersion: backstage.io/v1alpha1
+kind: API
+metadata:
+  name: c4p-service-api
+spec:
+  type: openapi
+  lifecycle: experimental
+  owner: guests
+  system: conference-application
+  definition:
+    $text: https://github.com/salaboy/platforms-on-k8s/blob/v2.0.0/conference-application/c4p-service/kodata/docs/openapi.yaml
