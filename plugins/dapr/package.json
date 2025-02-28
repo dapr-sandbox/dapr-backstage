@@ -69,5 +69,15 @@
       ]
     }
   },
-  "configSchema": "config.d.ts"
+  "configSchema": "config.d.ts",
+  "homepage": "https://github.com/dapr-sandbox/dapr-backstage/blob/main/plugins/dapr/README.md",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dapr-sandbox/dapr-backstage.git",
+    "directory": "plugins/dapr"
+  },
+  "keywords": [
+    "backstage",
+    "dapr"
+  ]
 }

@@ -1,0 +1,97 @@
+name: publish
+on:
+  push:
+    tags:
+      - 'release-*'
+  workflow_dispatch:
+
+env:
+  NODE_VERSION : '20'
+jobs:
+  # Verify the code before publishing
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # Get the yarn cache path.
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      - name: Restore yarn cache
+        uses: actions/cache@v4
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: yarn-cache-folder-${{ hashFiles('**/yarn.lock', '.yarnrc.yml') }}
+          restore-keys: |
+            yarn-cache-folder-
+
+      - name: yarn install
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: install --immutable
+      - name: yarn tsc
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: tsc
+      - name: yarn build
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: build:all
+
+  release:
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    environment: publish-npm # This is github environment name
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      # Get the yarn cache path.
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      - name: Restore yarn cache
+        uses: actions/cache@v4
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: yarn-cache-folder-${{ hashFiles('**/yarn.lock', '.yarnrc.yml') }}
+          restore-keys: |
+            yarn-cache-folder-
+
+      - name: yarn install
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: install --immutable
+      - name: yarn tsc
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: tsc
+      - name: yarn build repo
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: backstage-cli repo build
+
+      - name: publish
+        run: |
+          yarn config set -H 'npmAuthToken' "${{secrets.NPM_TOKEN}}"
+          yarn workspaces foreach --all -p -j 10 -v --no-private npm publish --access public --tolerate-republish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
