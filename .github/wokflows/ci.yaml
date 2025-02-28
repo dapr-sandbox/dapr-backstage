@@ -1,0 +1,56 @@
+name: CI
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.x, 22.x]
+
+    name: Test ${{ matrix.node-version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      # Get the yarn cache path.
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      - name: Restore yarn cache
+        uses: actions/cache@v4
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: yarn-cache-folder-${{ matrix.node-version }}-${{ hashFiles('**/yarn.lock', '.yarnrc.yml') }}
+          restore-keys: |
+            yarn-cache-folder-${{ matrix.node-version }}
+
+      - name: Run install
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: install --immutable
+      - name: Lint all
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: lint:all
+      - name: check for missing repo fixies
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: fix --check
+      - name: Compile the app
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: tsc
+      - name: Test the app
+        uses: borales/actions-yarn@v5
+        with:
+          cmd: test:all
