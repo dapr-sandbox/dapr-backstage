@@ -17,21 +17,22 @@ import {
 } from '@material-ui/core';
 import { daprApiRef } from '../../api';
 import { ApplicationInstance } from '../../types';
-import { daprApplicationId } from '../../utils/isDaprAvailable';
-import { daprUI } from '../../utils/isDaprUiConfigured';
+import { useDaprApplicationId } from '../../utils/isDaprAvailable';
+import { useDaprUI } from '../../utils/isDaprUiConfigured';
 
 export const ApplicationSummaryCard = () => {
-  const applicationId = daprApplicationId();
+  const applicationId = useDaprApplicationId();
   const DaprAPI = useApi(daprApiRef);
   const [data, setData] = useState<ApplicationInstance | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [openManifest, setOpenManifest] = useState(false);
 
-  const title = daprUI() ? (
+  const daprUIUrl = useDaprUI();
+  const title = daprUIUrl ? (
     <>
       {`Darp Application Instance: `}
-      <Link to={`${daprUI()}/${applicationId}`}>{`${applicationId}`}</Link>
+      <Link to={`${daprUIUrl}/${applicationId}`}>{`${applicationId}`}</Link>
     </>
   ) : (
     `Darp Application Instance: ${applicationId}`

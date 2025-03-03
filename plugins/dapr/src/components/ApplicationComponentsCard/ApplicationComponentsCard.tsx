@@ -4,22 +4,23 @@ import { useApi } from '@backstage/core-plugin-api';
 import { Typography } from '@material-ui/core';
 import { columns, useStyles } from './tableHeading';
 import { daprApiRef } from '../../api';
-import { daprApplicationId } from '../../utils/isDaprAvailable';
+import { useDaprApplicationId } from '../../utils/isDaprAvailable';
 import { Component } from '../../types';
-import { daprUI } from '../../utils/isDaprUiConfigured';
+import { useDaprUI } from '../../utils/isDaprUiConfigured';
 
 export const ApplicationComponentsCard = () => {
-  const applicationId = daprApplicationId();
+  const applicationId = useDaprApplicationId();
   const DaprAPI = useApi(daprApiRef);
   const [data, setData] = useState<Component[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const classes = useStyles();
 
-  const title = daprUI() ? (
+  const daprUIUrl = useDaprUI();
+  const title = daprUIUrl ? (
     <>
       {`Dapr Components: `}
-      <Link to={`${daprUI()}/${applicationId}`}>{`${applicationId}`}</Link>
+      <Link to={`${daprUIUrl}/${applicationId}`}>{`${applicationId}`}</Link>
     </>
   ) : (
     `Dapr components: ${applicationId}`

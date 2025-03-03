@@ -2,7 +2,7 @@ import { DAPR_APPLICATION_ID } from '../annotations';
 import { Entity } from '@backstage/catalog-model';
 import { useEntity } from '@backstage/plugin-catalog-react';
 
-/**
+/** 
  * Returns true if the catalog entity contains the dapr annotation `dapr.io/application-id`.
  *
  * @public
@@ -11,7 +11,7 @@ import { useEntity } from '@backstage/plugin-catalog-react';
 export const isDaprAvailable = (entity: Entity) =>
   Boolean(entity.metadata.annotations?.[DAPR_APPLICATION_ID]);
 
-export const daprApplicationId = () => {
+export const useDaprApplicationId = () => {
   const { entity } = useEntity();
 
   if (isDaprAvailable(entity)) {
