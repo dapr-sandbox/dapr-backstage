@@ -5,21 +5,22 @@ import { Typography } from '@material-ui/core';
 import { columns, useStyles } from './tableHeading';
 import { daprApiRef } from '../../api';
 import { MetadataActors } from '../../types';
-import { daprApplicationId } from '../../utils/isDaprAvailable';
-import { daprUI } from '../../utils/isDaprUiConfigured';
+import { useDaprApplicationId } from '../../utils/isDaprAvailable';
+import { useDaprUI } from '../../utils/isDaprUiConfigured';
 
 export const ApplicationActorsCard = () => {
-  const applicationId = daprApplicationId();
+  const applicationId = useDaprApplicationId();
   const DaprAPI = useApi(daprApiRef);
   const [data, setData] = useState<MetadataActors[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const classes = useStyles();
 
-  const title = daprUI() ? (
+  const daprUIUrl = useDaprUI();
+  const title = daprUIUrl ? (
     <>
       {`Dapr actors: `}
-      <Link to={`${daprUI()}/${applicationId}`}>{`${applicationId}`}</Link>
+      <Link to={`${daprUIUrl}/${applicationId}`}>{`${applicationId}`}</Link>
     </>
   ) : (
     `Dapr actors: ${applicationId}`

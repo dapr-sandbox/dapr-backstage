@@ -8,4 +8,4 @@ export {
 } from './plugin';
 export * from './api';
 export { isDaprAvailable } from './utils/isDaprAvailable';
-export { daprUI } from './utils/isDaprUiConfigured';
+export { useDaprUI } from './utils/isDaprUiConfigured';
