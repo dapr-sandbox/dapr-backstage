@@ -5702,7 +5702,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@dapr/backstage-plugin-dapr@npm:^0.1.0, @dapr/backstage-plugin-dapr@workspace:plugins/dapr":
+"@dapr/backstage-plugin-dapr@workspace:^, @dapr/backstage-plugin-dapr@workspace:plugins/dapr":
   version: 0.0.0-use.local
   resolution: "@dapr/backstage-plugin-dapr@workspace:plugins/dapr"
   dependencies:
@@ -13776,7 +13776,7 @@ __metadata:
     "@backstage/plugin-user-settings": "npm:^0.8.15"
     "@backstage/test-utils": "npm:^1.7.1"
     "@backstage/theme": "npm:^0.6.1"
-    "@dapr/backstage-plugin-dapr": "npm:^0.1.0"
+    "@dapr/backstage-plugin-dapr": "workspace:^"
     "@material-ui/core": "npm:^4.12.2"
     "@material-ui/icons": "npm:^4.9.1"
     "@playwright/test": "npm:^1.32.3"
