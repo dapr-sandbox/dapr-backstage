@@ -65,7 +65,7 @@ import {
   ApplicationComponentsCard,
   isDaprAvailable,
   ApplicationSubscriptionsCard,
-} from '@internal/backstage-plugin-dapr';
+} from '@dapr/backstage-plugin-dapr';
 
 const techdocsContent = (
   <EntityTechdocsContent>
