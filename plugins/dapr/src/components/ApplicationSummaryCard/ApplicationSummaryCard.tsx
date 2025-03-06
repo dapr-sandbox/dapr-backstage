@@ -31,11 +31,11 @@ export const ApplicationSummaryCard = () => {
   const daprUIUrl = useDaprUI();
   const title = daprUIUrl ? (
     <>
-      {`Darp Application Instance: `}
+      {`Dapr Application Instance: `}
       <Link to={`${daprUIUrl}/${applicationId}`}>{`${applicationId}`}</Link>
     </>
   ) : (
-    `Darp Application Instance: ${applicationId}`
+    `Dapr Application Instance: ${applicationId}`
   );
 
   useEffect(() => {
