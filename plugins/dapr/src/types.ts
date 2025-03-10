@@ -11,7 +11,7 @@ export interface ApplicationInstance {
   address: string;
   supportsDeletion: boolean;
   supportsLogs: boolean;
-  manifest: JSX.Element;
+  manifest: string;
   status: string;
   labels: string;
   selector: string;

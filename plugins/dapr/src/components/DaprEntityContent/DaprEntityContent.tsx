@@ -10,10 +10,10 @@ export const DaprEntityContent = () => (
   <Page themeId="tool">
     <Content>
       <Grid container spacing={6} direction="row" alignItems="stretch">
-        <Grid item md={4} xs={12}>
+        <Grid item md={12} xs={12}>
           <ApplicationSummaryCard />
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={12}>
           <ApplicationComponentsCard />
         </Grid>
         <Grid item md={8}>
