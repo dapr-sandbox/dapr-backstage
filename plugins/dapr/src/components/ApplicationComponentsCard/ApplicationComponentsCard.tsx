@@ -46,7 +46,7 @@ export const ApplicationComponentsCard = () => {
     };
 
     fetchData();
-  });
+  }, [applicationId, DaprAPI]);
 
   if (loading) {
     return <Typography>Loading...</Typography>;
