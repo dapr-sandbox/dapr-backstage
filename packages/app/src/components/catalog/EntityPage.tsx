@@ -153,7 +153,7 @@ const overviewContent = (
     <EntitySwitch>
       <EntitySwitch.Case if={e => Boolean(isDaprAvailable(e))}>
         <Grid item md={4} xs={12}>
-          <ApplicationSummaryCard />
+          <ApplicationSummaryCard size="small" />
         </Grid>
         <Grid item md={8}>
           <ApplicationComponentsCard />

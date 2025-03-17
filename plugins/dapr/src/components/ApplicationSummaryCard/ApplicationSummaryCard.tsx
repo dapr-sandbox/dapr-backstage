@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
 import { EmptyState, InfoCard, Link } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
-import { Box, Typography, Button, Grid, Chip } from '@material-ui/core';
+import { Box, Button, Chip, Typography } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import { daprApiRef } from '../../api';
 import { ApplicationInstance } from '../../types';
+import { downloadManifest } from '../../utils/downloadManifest';
 import { useDaprApplicationId } from '../../utils/isDaprAvailable';
 import { useDaprUI } from '../../utils/isDaprUiConfigured';
-import { format } from 'date-fns';
 import { CopyButton } from '../shared-components/CopyButton';
-import { downloadManifest } from '../../utils/downloadManifest';
 
-export const ApplicationSummaryCard = () => {
+export const ApplicationSummaryCard = ({
+  size = '',
+}: {
+  size?: 'small' | '';
+}) => {
   const applicationId = useDaprApplicationId();
   const DaprAPI = useApi(daprApiRef);
   const [data, setData] = useState<ApplicationInstance | null>(null);
@@ -67,7 +71,13 @@ export const ApplicationSummaryCard = () => {
   return (
     <InfoCard
       title={
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          flexWrap="wrap"
+          gridGap="0.5rem"
+        >
           <Box>
             <Typography variant="h5">{title}</Typography>
           </Box>
@@ -85,14 +95,15 @@ export const ApplicationSummaryCard = () => {
         </Box>
       }
     >
-      <Grid
-        container
-        spacing={2}
-        direction="row"
-        alignItems="stretch"
-        style={{ marginLeft: '0.01rem' }}
+      <Box
+        style={{
+          display: 'grid',
+          gridTemplateColumns: size === 'small' ? '2fr 4fr' : '3fr 4fr 5fr',
+          gap: '1rem',
+          padding: '0 0.25rem',
+        }}
       >
-        <Grid item md={3} xs={6}>
+        <Box>
           <Item label="App Port">
             <Typography variant="body1">
               <span>{data.appPort}</span>
@@ -110,8 +121,8 @@ export const ApplicationSummaryCard = () => {
               <span>{data.grpcPort}</span>
             </Typography>
           </Item>
-        </Grid>
-        <Grid item md={4} xs={6}>
+        </Box>
+        <Box>
           <Item label="Address">
             <Typography
               variant="body1"
@@ -129,8 +140,8 @@ export const ApplicationSummaryCard = () => {
           <Item label="Age">
             <Typography variant="body1">{data.age}</Typography>
           </Item>
-        </Grid>
-        <Grid item md={5} xs={6}>
+        </Box>
+        <Box>
           <Item label="Labels" style={{ margin: '0' }}>
             <Typography variant="body1">
               {data.labels ? (
@@ -140,8 +151,8 @@ export const ApplicationSummaryCard = () => {
               )}
             </Typography>
           </Item>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </InfoCard>
   );
 };
