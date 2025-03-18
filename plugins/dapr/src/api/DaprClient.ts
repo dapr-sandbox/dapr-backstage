@@ -1,6 +1,10 @@
 import { DiscoveryApi, IdentityApi } from '@backstage/core-plugin-api/index';
 import { DaprApi } from './DaprApi';
-import { ApplicationInstance, ApplicationMetadata } from '../types';
+import {
+  ApplicationInstance,
+  ApplicationMetadata,
+  ComponentDetails,
+} from '../types';
 
 export type Options = {
   discoveryApi: DiscoveryApi;
@@ -54,5 +58,13 @@ export class DaprClient implements DaprApi {
     return (await this.fetcher(
       `${proxyUrl}/metadata/All/${applicationId}`,
     )) as ApplicationMetadata;
+  }
+
+  async getAppComponent(name: string) {
+    const proxyUrl = await this.getBaseUrl();
+
+    return (await this.fetcher(
+      `${proxyUrl}/components/All/${name}`,
+    )) as ComponentDetails;
   }
 }

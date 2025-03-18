@@ -10,12 +10,16 @@ import { downloadManifest } from '../../utils/downloadManifest';
 import { useDaprApplicationId } from '../../utils/isDaprAvailable';
 import { useDaprUI } from '../../utils/isDaprUiConfigured';
 import { CopyButton } from '../shared-components/CopyButton';
+import { DisplayItem } from '../shared-components/DisplayItem';
+
+export type ApplicationSummaryCardProps = {
+  /** Size variant of the card. Default is empty string */
+  size?: 'small' | '';
+};
 
 export const ApplicationSummaryCard = ({
   size = '',
-}: {
-  size?: 'small' | '';
-}) => {
+}: ApplicationSummaryCardProps) => {
   const applicationId = useDaprApplicationId();
   const DaprAPI = useApi(daprApiRef);
   const [data, setData] = useState<ApplicationInstance | null>(null);
@@ -104,26 +108,26 @@ export const ApplicationSummaryCard = ({
         }}
       >
         <Box>
-          <Item label="App Port">
+          <DisplayItem label="App Port">
             <Typography variant="body1">
               <span>{data.appPort}</span>
             </Typography>
-          </Item>
+          </DisplayItem>
 
-          <Item label="HTTP Port">
+          <DisplayItem label="HTTP Port">
             <Typography variant="body1">
               <span>{data.httpPort}</span>
             </Typography>
-          </Item>
+          </DisplayItem>
 
-          <Item label="GRPC Port">
+          <DisplayItem label="GRPC Port">
             <Typography variant="body1">
               <span>{data.grpcPort}</span>
             </Typography>
-          </Item>
+          </DisplayItem>
         </Box>
         <Box>
-          <Item label="Address">
+          <DisplayItem label="Address">
             <Typography
               variant="body1"
               style={{ display: 'flex', alignItems: 'center' }}
@@ -131,18 +135,18 @@ export const ApplicationSummaryCard = ({
               <span>{data.address}</span>
               <CopyButton text={data.address} />
             </Typography>
-          </Item>
-          <Item label="Created">
+          </DisplayItem>
+          <DisplayItem label="Created">
             <Typography variant="body1">
               {format(new Date(data.created), 'dd/MMM/yyyy HH:mm:ss zzzz')}
             </Typography>
-          </Item>
-          <Item label="Age">
+          </DisplayItem>
+          <DisplayItem label="Age">
             <Typography variant="body1">{data.age}</Typography>
-          </Item>
+          </DisplayItem>
         </Box>
         <Box>
-          <Item label="Labels" style={{ margin: '0' }}>
+          <DisplayItem label="Labels" style={{ margin: '0' }}>
             <Typography variant="body1">
               {data.labels ? (
                 <LabelsList labels={data?.labels?.split(',')} />
@@ -150,31 +154,12 @@ export const ApplicationSummaryCard = ({
                 'No labels'
               )}
             </Typography>
-          </Item>
+          </DisplayItem>
         </Box>
       </Box>
     </InfoCard>
   );
 };
-
-function Item({
-  label,
-  children,
-  style,
-}: {
-  label: string;
-  children: React.ReactNode;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <Box style={{ marginBottom: '0.5rem', ...style }}>
-      <Typography variant="h6" style={{ fontSize: '1.2rem' }}>
-        {label}
-      </Typography>
-      {children}
-    </Box>
-  );
-}
 
 function LabelsList({ labels }: { labels: string[] }) {
   return (

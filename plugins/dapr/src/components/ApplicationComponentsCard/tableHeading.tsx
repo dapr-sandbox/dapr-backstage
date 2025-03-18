@@ -2,6 +2,7 @@ import { TableColumn } from '@backstage/core-components/index';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import React from 'react';
 import { Component } from '../../types';
+import { TypeLinkModal } from './TypeLinkModal';
 
 export const columns: TableColumn<Component>[] = [
   {
@@ -15,6 +16,13 @@ export const columns: TableColumn<Component>[] = [
     field: 'type',
     type: 'string',
     highlight: true,
+    render: (row: Component) => (
+      <TypeLinkModal
+        type={row.type}
+        componentName={row.name}
+        hasCapabilities={(row.capabilities?.length ?? 0) > 0}
+      />
+    ),
   },
   {
     title: 'Version',

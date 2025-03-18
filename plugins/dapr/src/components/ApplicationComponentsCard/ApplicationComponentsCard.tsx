@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { EmptyState, Link, Table } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
 import { Typography } from '@material-ui/core';
@@ -26,27 +26,26 @@ export const ApplicationComponentsCard = () => {
     `Dapr components: ${applicationId}`
   );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await DaprAPI.getApplicationMetadata(applicationId);
-
-        if (!response) {
-          throw new Error(`Wrong application id`);
-        }
-
-        setData(response.components);
-      } catch (err) {
-        const errorMessage =
-          err instanceof Error ? err.message : 'Unknown error occurred';
-        setError(errorMessage);
-      } finally {
-        setLoading(false);
+  const fetchData = useCallback(async () => {
+    try {
+      const response = await DaprAPI.getApplicationMetadata(applicationId);
+      if (!response) {
+        throw new Error(`Wrong application id`);
       }
-    };
 
+      setData(response.components);
+    } catch (err) {
+      const errorMessage =
+        err instanceof Error ? err.message : 'Unknown error occurred';
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  }, [DaprAPI, applicationId]);
+
+  useEffect(() => {
     fetchData();
-  });
+  }, [fetchData]);
 
   if (loading) {
     return <Typography>Loading...</Typography>;
