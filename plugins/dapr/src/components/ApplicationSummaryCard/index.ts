@@ -1,1 +1,4 @@
-export { ApplicationSummaryCard } from './ApplicationSummaryCard';
+export {
+  ApplicationSummaryCard,
+  type ApplicationSummaryCardProps,
+} from './ApplicationSummaryCard';

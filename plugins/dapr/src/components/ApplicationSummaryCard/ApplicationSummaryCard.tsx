@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from 'react';
 import { EmptyState, InfoCard, Link } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
-import { Box, Typography, Button, Grid, Chip } from '@material-ui/core';
+import { Box, Button, Chip, Typography } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
+import { format } from 'date-fns';
+import React, { useEffect, useState } from 'react';
 import { daprApiRef } from '../../api';
 import { ApplicationInstance } from '../../types';
+import { downloadManifest } from '../../utils/downloadManifest';
 import { useDaprApplicationId } from '../../utils/isDaprAvailable';
 import { useDaprUI } from '../../utils/isDaprUiConfigured';
-import { format } from 'date-fns';
 import { CopyButton } from '../shared-components/CopyButton';
-import { downloadManifest } from '../../utils/downloadManifest';
+import { DisplayItem } from '../shared-components/DisplayItem';
 
-export const ApplicationSummaryCard = () => {
+export type ApplicationSummaryCardProps = {
+  /** Size variant of the card. Default is empty string */
+  size?: 'small' | '';
+};
+
+export const ApplicationSummaryCard = ({
+  size = '',
+}: ApplicationSummaryCardProps) => {
   const applicationId = useDaprApplicationId();
   const DaprAPI = useApi(daprApiRef);
   const [data, setData] = useState<ApplicationInstance | null>(null);
@@ -67,7 +75,13 @@ export const ApplicationSummaryCard = () => {
   return (
     <InfoCard
       title={
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          flexWrap="wrap"
+          gridGap="0.5rem"
+        >
           <Box>
             <Typography variant="h5">{title}</Typography>
           </Box>
@@ -85,34 +99,35 @@ export const ApplicationSummaryCard = () => {
         </Box>
       }
     >
-      <Grid
-        container
-        spacing={2}
-        direction="row"
-        alignItems="stretch"
-        style={{ marginLeft: '0.01rem' }}
+      <Box
+        style={{
+          display: 'grid',
+          gridTemplateColumns: size === 'small' ? '2fr 4fr' : '3fr 4fr 5fr',
+          gap: '1rem',
+          padding: '0 0.25rem',
+        }}
       >
-        <Grid item md={3} xs={6}>
-          <Item label="App Port">
+        <Box>
+          <DisplayItem label="App Port">
             <Typography variant="body1">
               <span>{data.appPort}</span>
             </Typography>
-          </Item>
+          </DisplayItem>
 
-          <Item label="HTTP Port">
+          <DisplayItem label="HTTP Port">
             <Typography variant="body1">
               <span>{data.httpPort}</span>
             </Typography>
-          </Item>
+          </DisplayItem>
 
-          <Item label="GRPC Port">
+          <DisplayItem label="GRPC Port">
             <Typography variant="body1">
               <span>{data.grpcPort}</span>
             </Typography>
-          </Item>
-        </Grid>
-        <Grid item md={4} xs={6}>
-          <Item label="Address">
+          </DisplayItem>
+        </Box>
+        <Box>
+          <DisplayItem label="Address">
             <Typography
               variant="body1"
               style={{ display: 'flex', alignItems: 'center' }}
@@ -120,18 +135,18 @@ export const ApplicationSummaryCard = () => {
               <span>{data.address}</span>
               <CopyButton text={data.address} />
             </Typography>
-          </Item>
-          <Item label="Created">
+          </DisplayItem>
+          <DisplayItem label="Created">
             <Typography variant="body1">
               {format(new Date(data.created), 'dd/MMM/yyyy HH:mm:ss zzzz')}
             </Typography>
-          </Item>
-          <Item label="Age">
+          </DisplayItem>
+          <DisplayItem label="Age">
             <Typography variant="body1">{data.age}</Typography>
-          </Item>
-        </Grid>
-        <Grid item md={5} xs={6}>
-          <Item label="Labels" style={{ margin: '0' }}>
+          </DisplayItem>
+        </Box>
+        <Box>
+          <DisplayItem label="Labels" style={{ margin: '0' }}>
             <Typography variant="body1">
               {data.labels ? (
                 <LabelsList labels={data?.labels?.split(',')} />
@@ -139,31 +154,12 @@ export const ApplicationSummaryCard = () => {
                 'No labels'
               )}
             </Typography>
-          </Item>
-        </Grid>
-      </Grid>
+          </DisplayItem>
+        </Box>
+      </Box>
     </InfoCard>
   );
 };
-
-function Item({
-  label,
-  children,
-  style,
-}: {
-  label: string;
-  children: React.ReactNode;
-  style?: React.CSSProperties;
-}) {
-  return (
-    <Box style={{ marginBottom: '0.5rem', ...style }}>
-      <Typography variant="h6" style={{ fontSize: '1.2rem' }}>
-        {label}
-      </Typography>
-      {children}
-    </Box>
-  );
-}
 
 function LabelsList({ labels }: { labels: string[] }) {
   return (

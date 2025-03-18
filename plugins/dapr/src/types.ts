@@ -55,3 +55,51 @@ export interface Rule {
 export interface Extended {
   daprRuntimeVersion: string;
 }
+
+export interface ComponentDetails {
+  name: string;
+  kind: string;
+  type: string;
+  created: string;
+  age: string;
+  scopes: null | string[];
+  manifest: {
+    kind: string;
+    apiVersion: string;
+    metadata: {
+      name: string;
+      namespace: string;
+      uid: string;
+      resourceVersion: string;
+      generation: number;
+      creationTimestamp: string;
+      labels: Record<string, string>;
+      annotations: Record<string, string>;
+      managedFields: Array<{
+        manager: string;
+        operation: string;
+        apiVersion: string;
+        time: string;
+        fieldsType: string;
+        fieldsV1: Record<string, any>;
+      }>;
+    };
+    spec: {
+      type: string;
+      version: string;
+      ignoreErrors: boolean;
+      metadata: Array<{
+        name: string;
+        value: string | null;
+        secretKeyRef: {
+          name: string;
+          key: string;
+        };
+      }>;
+      initTimeout: string;
+    };
+    auth: {
+      secretStore: string;
+    };
+  };
+}
