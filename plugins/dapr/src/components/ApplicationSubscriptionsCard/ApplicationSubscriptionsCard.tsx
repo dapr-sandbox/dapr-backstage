@@ -46,7 +46,7 @@ export const ApplicationSubscriptionsCard = () => {
     };
 
     fetchData();
-  });
+  }, [applicationId, DaprAPI]);
 
   if (loading) {
     return <Typography>Loading...</Typography>;

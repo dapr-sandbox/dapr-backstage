@@ -45,7 +45,7 @@ export const ApplicationComponentsCard = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+  }, [fetchData,applicationId, DaprAPI]);
 
   if (loading) {
     return <Typography>Loading...</Typography>;
