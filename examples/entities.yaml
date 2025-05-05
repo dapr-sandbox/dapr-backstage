@@ -20,6 +20,11 @@ spec:
   owner: guests
   system: conference-application
   providesApis: [frontend-api]
+  consumesApis:
+    - agenda-service-api
+    - notifications-service-api
+    - c4p-service-api
+
 ---
 # https://backstage.io/docs/features/software-catalog/descriptor-format#kind-component
 apiVersion: backstage.io/v1alpha1
@@ -64,6 +69,9 @@ spec:
   owner: guests
   system: conference-application
   providesApis: [c4p-service-api]
+  consumesApis:
+    - notifications-service-api
+    - agenda-service-api
 
 ---
 # https://backstage.io/docs/features/software-catalog/descriptor-format#kind-api
