@@ -1,6 +1,5 @@
 import { Button } from '@material-ui/core';
 import FileCopyIcon from '@material-ui/icons/FileCopy';
-import React from 'react';
 
 export function CopyButton({ text }: { text: string }) {
   return (

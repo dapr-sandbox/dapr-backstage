@@ -1,6 +1,5 @@
 import { Content, Page } from '@backstage/core-components';
 import { Grid } from '@material-ui/core';
-import React from 'react';
 import { ApplicationSummaryCard } from '../ApplicationSummaryCard/ApplicationSummaryCard';
 import { ApplicationComponentsCard } from '../ApplicationComponentsCard/ApplicationComponentsCard';
 import { ApplicationSubscriptionsCard } from '../ApplicationSubscriptionsCard/ApplicationSubscriptionsCard';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const KafkaIcon = ({ styles }: { styles: React.CSSProperties }) => {
   return (
     <svg

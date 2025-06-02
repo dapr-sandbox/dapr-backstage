@@ -1,4 +1,3 @@
-import React from 'react';
 import { compatWrapper } from '@backstage/core-compat-api';
 import {
   ApiBlueprint,

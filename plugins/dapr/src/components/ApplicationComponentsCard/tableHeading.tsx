@@ -1,6 +1,5 @@
-import { TableColumn } from '@backstage/core-components/index';
+import { TableColumn } from '@backstage/core-components';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import React from 'react';
 import { Component } from '../../types';
 import { TypeLinkModal } from './TypeLinkModal';
 
