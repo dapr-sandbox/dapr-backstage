@@ -13,7 +13,7 @@ import {
   TableHead,
   TableRow,
 } from '@material-ui/core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { daprApiRef } from '../../api';
 import { ComponentDetails } from '../../types';
 import { getIcon } from '../icons/services';

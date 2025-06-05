@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const RedisIcon = ({ styles }: { styles: React.CSSProperties }) => {
   return (
     <svg

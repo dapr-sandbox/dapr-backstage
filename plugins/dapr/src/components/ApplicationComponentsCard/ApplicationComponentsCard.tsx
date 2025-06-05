@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { EmptyState, Link, Table } from '@backstage/core-components';
 import { useApi } from '@backstage/core-plugin-api';
 import { Typography } from '@material-ui/core';

@@ -1,4 +1,4 @@
-import { DiscoveryApi, IdentityApi } from '@backstage/core-plugin-api/index';
+import { DiscoveryApi, IdentityApi } from '@backstage/core-plugin-api';
 import { DaprApi } from './DaprApi';
 import {
   ApplicationInstance,

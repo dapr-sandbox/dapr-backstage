@@ -3,7 +3,7 @@ import { useApi } from '@backstage/core-plugin-api';
 import { Box, Button, Chip, Typography } from '@material-ui/core';
 import GetAppIcon from '@material-ui/icons/GetApp';
 import { format } from 'date-fns';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { daprApiRef } from '../../api';
 import { ApplicationInstance } from '../../types';
 import { downloadManifest } from '../../utils/downloadManifest';
